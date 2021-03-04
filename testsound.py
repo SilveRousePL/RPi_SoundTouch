@@ -7,13 +7,15 @@ import threading
 import time
 import sys
 
-x1 = threading.Thread(target=thread_function, args=("frogs2.wav",))
-x2 = threading.Thread(target=thread_function, args=("moor6.wav",))
 
 def thread_function(filename):
     logging.info("Sound %s: play", filename)
     playsound(filename)
     logging.info("Sound %s: stop", filename)
+
+
+x1 = threading.Thread(target=thread_function, args=("frogs2.wav",))
+x2 = threading.Thread(target=thread_function, args=("moor6.wav",))
 
 
 def playsound(touched_pin):
