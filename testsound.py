@@ -7,6 +7,9 @@ import threading
 import time
 import sys
 
+x1 = threading.Thread(target=thread_function, args=("frogs2.wav",))
+x2 = threading.Thread(target=thread_function, args=("moor6.wav",))
+
 def thread_function(filename):
     logging.info("Sound %s: play", filename)
     playsound(filename)
@@ -19,10 +22,8 @@ def playsound(touched_pin):
                         datefmt="%H:%M:%S")
 
     if touched_pin is 0:
-        x1 = threading.Thread(target=thread_function, args=("frogs2.wav",))
         x1.start()
     if touched_pin is 11:
-        x2 = threading.Thread(target=thread_function, args=("moor6.wav",))
         x2.start()
 
 
