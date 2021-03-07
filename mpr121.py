@@ -8,25 +8,25 @@ import sys
 cap = MPR121.MPR121()
 
 if not cap.begin():
-    print('Error initializing MPR121.  Check your wiring!')
+    print('Error initializing MPR121. Check your wiring!')
     sys.exit(1)
 
 pygame.mixer.pre_init(44100, -16, 12, 512)
 pygame.init()
 
 SOUND_MAPPING = {
-    0: './Sounds/Animal/Bird.wav',
-    1: './Sounds/Animal/Cricket.wav',
-    2: './Sounds/Animal/Dog1.wav',
-    3: './Sounds/Animal/Dog2.wav',
-    4: './Sounds/Animal/Duck.wav',
-    5: './Sounds/Animal/Goose.wav',
-    6: './Sounds/Animal/Horse.wav',
-    7: './Sounds/Animal/Kitten.wav',
-    8: './Sounds/Animal/Meow.wav',
-    9: './Sounds/Animal/Owl.wav',
-    10: './Sounds/Animal/Rooster.wav',
-    11: './Sounds/Animal/WolfHowl.wav',
+    0: './sounds/Animal/Bird.wav',
+    1: './sounds/Animal/Cricket.wav',
+    2: './sounds/Animal/Dog1.wav',
+    3: './sounds/Animal/Dog2.wav',
+    4: './sounds/Animal/Duck.wav',
+    5: './sounds/Animal/Goose.wav',
+    6: './sounds/Animal/Horse.wav',
+    7: './sounds/Animal/Kitten.wav',
+    8: './sounds/Animal/Meow.wav',
+    9: './sounds/Animal/Owl.wav',
+    10: './sounds/Animal/Rooster.wav',
+    11: './sounds/Animal/WolfHowl.wav',
 }
 
 sounds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
