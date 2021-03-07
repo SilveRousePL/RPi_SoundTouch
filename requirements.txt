@@ -1,2 +1,9 @@
+Adafruit-Blinka==6.3.0
+adafruit-circuitpython-busdevice==5.0.6
+adafruit-circuitpython-mpr121==2.1.7
+Adafruit-GPIO==1.0.3
+Adafruit-MPR121==1.1.2
+Adafruit-PlatformDetect==3.2.0
+Adafruit-PureIO==1.1.8
 pygame==2.0.1
-
+RPi.GPIO==0.7.0
