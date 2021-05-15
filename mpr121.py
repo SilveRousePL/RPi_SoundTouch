@@ -12,7 +12,7 @@ if not cap.begin():
     print('Error initializing MPR121. Check your wiring!')
     sys.exit(1)
 
-pygame.mixer.pre_init(48000, -16, 10, 512)
+pygame.mixer.pre_init(48000, -16, 2, 4096)
 pygame.init()
 
 class TouchMode(enum.Enum):
@@ -85,13 +85,16 @@ while True:
                     sounds[i].stop()
         elif TOUCH_PLATE_MODE[i] == TouchMode.TOGGLE:
             if current_touched & pin_bit and not last_touched & pin_bit:
+                print(" ", (time.time() - last_touch_time[i]))
                 if time.time() - last_touch_time[i] < 1.0:
                     continue
                 if (sounds[i]):
                     if not (touch_counter[i] % 2):
                         sounds[i].play()
+                        print(' {0} PLAY!'.format(i))
                     else:
                         sounds[i].stop()
+                        print(' {0} STOP!'.format(i))
                 print('{0} clicked!'.format(i))
             if not current_touched & pin_bit and last_touched & pin_bit:
                 last_touch_time[i] = time.time()
