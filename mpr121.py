@@ -66,7 +66,6 @@ while True:
     current_touched = cap.touched()
     for i in range(10):
         pin_bit = 1 << i
-        touch_counter[i] = touch_counter[i] + 1
         if TOUCH_PLATE_MODE[i] == TouchMode.TOUCH:
             if current_touched & pin_bit and not last_touched & pin_bit:
                 print('{0} touched!'.format(i))
@@ -95,6 +94,7 @@ while True:
                     else:
                         sounds[i].stop()
                         print(' {0} STOP!'.format(i))
+                touch_counter[i] = touch_counter[i] + 1
                 print('{0} clicked!'.format(i))
             if not current_touched & pin_bit and last_touched & pin_bit:
                 last_touch_time[i] = time.time()
