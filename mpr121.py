@@ -61,7 +61,7 @@ print('Press Ctrl-C to quit.')
 last_touched = cap.touched()
 while True:
     current_touched = cap.touched()
-    for i in range(12):
+    for i in range(10):
         pin_bit = 1 << i
         touch_counter[i] = touch_counter[i] + 1
         if TOUCH_PLATE_MODE[i] == TouchMode.TOUCH:
