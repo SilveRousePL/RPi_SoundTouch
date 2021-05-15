@@ -55,7 +55,9 @@ last_touch_time = 10 * [time.time()]
 for key, soundfile in SOUND_MAPPING.items():
     sounds[key] = pygame.mixer.Sound(soundfile)
     sounds[key].set_volume(1)
+    print('Loaded ' + soundfile)
 
+print('Loaded successfully!')
 print('Press Ctrl-C to quit.')
 
 # For RPi
@@ -82,18 +84,17 @@ while True:
                 if (sounds[i]):
                     sounds[i].stop()
         elif TOUCH_PLATE_MODE[i] == TouchMode.TOGGLE:
-            print('{0} clicked!'.format(i))
-            if time.time() - last_touch_time[i] < 1.0:
-                continue
             if current_touched & pin_bit and not last_touched & pin_bit:
+                if time.time() - last_touch_time[i] < 1.0:
+                    continue
                 if (sounds[i]):
                     if not (touch_counter[i] % 2):
                         sounds[i].play()
                     else:
                         sounds[i].stop()
+                print('{0} clicked!'.format(i))
             if not current_touched & pin_bit and last_touched & pin_bit:
                 last_touch_time[i] = time.time()
-                print('{0} released!'.format(i))
     last_touched = current_touched
     time.sleep(0.1)
 
