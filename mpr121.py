@@ -5,6 +5,8 @@ import enum
 import pygame
 import time
 import sys
+import os
+os.chdir('/home/pi/RPi_SoundTouch')
 
 cap = MPR121.MPR121()
 
