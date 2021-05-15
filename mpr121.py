@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import Adafruit_MPR121.MPR121 as MPR121
+import enum
 import pygame
 import time
 import sys
@@ -11,25 +12,44 @@ if not cap.begin():
     print('Error initializing MPR121. Check your wiring!')
     sys.exit(1)
 
-pygame.mixer.pre_init(44100, -16, 12, 512)
+pygame.mixer.pre_init(48000, -16, 10, 512)
 pygame.init()
 
-SOUND_MAPPING = {
-    0: './sounds/Animal/Bird.wav',
-    1: './sounds/Animal/Cricket.wav',
-    2: './sounds/Animal/Dog1.wav',
-    3: './sounds/Animal/Dog2.wav',
-    4: './sounds/Animal/Duck.wav',
-    5: './sounds/Animal/Goose.wav',
-    6: './sounds/Animal/Horse.wav',
-    7: './sounds/Animal/Kitten.wav',
-    8: './sounds/Animal/Meow.wav',
-    9: './sounds/Animal/Owl.wav',
-    10: './sounds/Animal/Rooster.wav',
-    11: './sounds/Animal/WolfHowl.wav',
+class TouchMode(enum.Enum):
+    TOUCH = 0
+    HOLD = 1
+    TOGGLE = 2
+
+TOUCH_PLATE_MODE = {
+    0: TouchMode.TOGGLE,
+    1: TouchMode.HOLD,
+    2: TouchMode.HOLD,
+    3: TouchMode.HOLD,
+    4: TouchMode.HOLD,
+    5: TouchMode.HOLD,
+    6: TouchMode.HOLD,
+    7: TouchMode.HOLD,
+    8: TouchMode.HOLD,
+    9: TouchMode.HOLD,
+    10: TouchMode.HOLD,
+    11: TouchMode.HOLD
 }
 
-sounds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+SOUND_MAPPING = {
+    0: './sounds/master_of_leaufage.wav',
+    1: './sounds/long_lines.wav',
+    2: './sounds/sharp_ends.wav',
+    3: './sounds/spiky_almonds.wav',
+    4: './sounds/alien_faces.wav',
+    5: './sounds/american_footballs.wav',
+    6: './sounds/monster_hearts.wav',
+    7: './sounds/natural_satellites.wav',
+    8: './sounds/the_untouchables.wav',
+    9: './sounds/slim_figures.wav'
+}
+
+sounds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+touch_counter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 for key, soundfile in SOUND_MAPPING.items():
     sounds[key] = pygame.mixer.Sound(soundfile)
@@ -43,13 +63,33 @@ while True:
     current_touched = cap.touched()
     for i in range(12):
         pin_bit = 1 << i
-        if current_touched & pin_bit and not last_touched & pin_bit:
-            print('{0} touched!'.format(i))
-            if (sounds[i]):
-                sounds[i].play()
-        if not current_touched & pin_bit and last_touched & pin_bit:
-            print('{0} released!'.format(i))
-
+        touch_counter[i] = touch_counter[i] + 1
+        if TOUCH_PLATE_MODE[i] == TouchMode.TOUCH:
+            if current_touched & pin_bit and not last_touched & pin_bit:
+                print('{0} touched!'.format(i))
+                if (sounds[i]):
+                    sounds[i].play()
+            if not current_touched & pin_bit and last_touched & pin_bit:
+                print('{0} released!'.format(i))
+        elif TOUCH_PLATE_MODE[i] == TouchMode.HOLD:
+            if current_touched & pin_bit and not last_touched & pin_bit:
+                print('{0} touched!'.format(i))
+                if (sounds[i]):
+                    sounds[i].play()
+            if not current_touched & pin_bit and last_touched & pin_bit:
+                print('{0} released!'.format(i))
+                if (sounds[i]):
+                    sounds[i].stop()
+        elif TOUCH_PLATE_MODE[i] == TouchMode.TOGGLE:
+            if current_touched & pin_bit and not last_touched & pin_bit:
+                print('{0} touched!'.format(i))
+                if (sounds[i]):
+                    if touch_counter[i] % 2:
+                        sounds[i].play()
+                    else:
+                        sounds[i].stop()
+            if not current_touched & pin_bit and last_touched & pin_bit:
+                print('{0} released!'.format(i))
     last_touched = current_touched
     time.sleep(0.1)
 
