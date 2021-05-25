@@ -7,6 +7,9 @@ import sys
 import os
 os.chdir('/home/pi/RPi_SoundTouch')
 
+music_volume = 1
+sounds_volume = 0.4
+
 
 def printsys(text):
     sys.stdout.write(f'{text}\n')
@@ -48,9 +51,9 @@ for key, soundfile in SOUND_MAPPING.items():
     else:
         printsys(f'{soundfile} sound not loaded')
         continue
-    sounds[key].set_volume(0.5)
+    sounds[key].set_volume(sounds_volume)
 
-pygame.mixer.music.set_volume(1)
+pygame.mixer.music.set_volume(music_volume)
 pygame.mixer.music.stop()
 is_music_playing = False
 
