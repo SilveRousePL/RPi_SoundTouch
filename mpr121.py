@@ -45,11 +45,17 @@ for key, soundfile in SOUND_MAPPING.items():
     sounds[key].set_volume(1)
 
 pygame.mixer.music.stop()
+is_music_playing = False
 
 
 def handler_press(i):
     if i == 0:
-        pygame.mixer.music.play()
+        if is_music_playing is True:
+            pygame.mixer.music.fadeout(1000)
+            is_music_playing = False
+        else:
+            pygame.mixer.music.play()
+            is_music_playing = True
         return
     if touching is None:
         sounds[i-1].play()
@@ -57,7 +63,6 @@ def handler_press(i):
 
 def handler_release(i):
     if i == 0:
-        pygame.mixer.music.stop()
         return
     sounds[i-1].fadeout(1000)
 
