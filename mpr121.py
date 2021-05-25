@@ -49,6 +49,7 @@ is_music_playing = False
 
 
 def handler_press(i):
+    global is_music_playing
     if i == 0:
         if is_music_playing is True:
             pygame.mixer.music.fadeout(1000)
