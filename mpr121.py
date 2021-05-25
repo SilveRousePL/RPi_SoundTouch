@@ -48,7 +48,7 @@ for key, soundfile in SOUND_MAPPING.items():
     else:
         printsys(f'{soundfile} sound not loaded')
         continue
-    sounds[key].set_volume(0.8)
+    sounds[key].set_volume(0.5)
 
 pygame.mixer.music.set_volume(1)
 pygame.mixer.music.stop()
