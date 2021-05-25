@@ -9,7 +9,7 @@ os.chdir('/home/pi/RPi_SoundTouch')
 
 
 def printsys(text):
-    sys.stdout.write(text)
+    sys.stdout.write(f'{text}\n')
     sys.stdout.flush()
 
 
