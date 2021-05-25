@@ -10,7 +10,7 @@ os.chdir('/home/pi/RPi_SoundTouch')
 cap = MPR121.MPR121()
 
 if not cap.begin():
-    sys.stdout.write('Error initializing MPR121. Check your wiring!')
+    sys.stderr.write('Error initializing MPR121. Check your wiring!')
     sys.exit(1)
 
 pygame.mixer.pre_init(48000, -16, 2, 4096)
@@ -34,13 +34,13 @@ touching = None
 last_touch_time = 10 * [time.time()]
 
 pygame.mixer.music.load(MUSIC_FILE)
-sys.stdout.write(f'Loaded music {MUSIC_FILE}')
+sys.stderr.write(f'Loaded music {MUSIC_FILE}')
 for key, soundfile in SOUND_MAPPING.items():
     if soundfile[-3:] == 'wav':
         sounds[key] = pygame.mixer.Sound(soundfile)
-        sys.stdout.write(f'Loaded sound {soundfile}')
+        sys.stderr.write(f'Loaded sound {soundfile}')
     else:
-        sys.stdout.write(f'{soundfile} sound not loaded')
+        sys.stderr.write(f'{soundfile} sound not loaded')
         continue
     sounds[key].set_volume(1)
 
@@ -69,18 +69,18 @@ def handler_release(i):
     sounds[i-1].fadeout(1000)
 
 
-sys.stdout.write('STARTED!')
+sys.stderr.write('STARTED!')
 last_touched = cap.touched()
 while True:
     current_touched = cap.touched()
     for i in range(10):
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
-            sys.stdout.write(f'{i} pressed!')
+            sys.stderr.write(f'{i} pressed!')
             handler_press(i)
             touching = i
         if not current_touched & pin_bit and last_touched & pin_bit:
-            sys.stdout.write(f'{i} released!')
+            sys.stderr.write(f'{i} released!')
             last_touch_time[i] = time.time()
             handler_release(i)
             touching = None
@@ -90,15 +90,15 @@ while True:
 
 # elif TOUCH_PLATE_MODE[i] == TouchMode.TOGGLE:
 #     if current_touched & pin_bit and not last_touched & pin_bit:
-#         sys.stdout.write(" ", (time.time() - last_touch_time[i]))
+#         sys.stderr.write(" ", (time.time() - last_touch_time[i]))
 #         if time.time() - last_touch_time[i] < 1.0:
 #             continue
 #         if (sounds[i]):
 #             if not (touch_counter[i] % 2):
 #                 sounds[i].play()
-#                 sys.stdout.write(' {0} PLAY!'.format(i))
+#                 sys.stderr.write(' {0} PLAY!'.format(i))
 #             else:
 #                 sounds[i].stop()
-#                 sys.stdout.write(' {0} STOP!'.format(i))
+#                 sys.stderr.write(' {0} STOP!'.format(i))
 #         touch_counter[i] = touch_counter[i] + 1
-#         sys.stdout.write('{0} clicked!'.format(i))
+#         sys.stderr.write('{0} clicked!'.format(i))
